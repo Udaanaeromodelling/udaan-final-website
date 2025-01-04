@@ -1,5 +1,5 @@
 import './App.css';
-import { Link, Routes, Route } from 'react-router-dom';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
@@ -7,8 +7,18 @@ import Home from './pages/Home/Home';
 import Courses from './pages/Courses/Courses';
 import About from './pages/About/About';
 import Contact from './pages/Contact/Contact';
+import { trackPageView } from "./analytics"; // Import the tracking function
+import React, { useEffect } from "react";
 
 function App() {
+
+  const location = useLocation();
+
+  useEffect(() => {
+    // Send page view event when route changes
+    trackPageView(location.pathname);
+  }, [location]);
+
   return (
     <div className='bg-gray-300'>
       <Navbar expand="lg" className='position-absolute w-100'>
@@ -26,7 +36,7 @@ function App() {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='me-auto justify-content-end w-100 italic'>
               <Nav.Link href='/' className='text-uppercase'>Home</Nav.Link>
-              <Nav.Link href='/achivments' className='text-uppercase'>Achievements</Nav.Link>
+              <Nav.Link href='/achievements' className='text-uppercase'>Achievements</Nav.Link>
               <Nav.Link href='/about' className='text-uppercase'>About us</Nav.Link>
             
               <Nav.Link href='/contact' className='text-uppercase'>Get in touch</Nav.Link>
@@ -37,7 +47,7 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/achivments' element={<Courses />} />
+        <Route path='/achievements' element={<Courses />} />
         <Route path='/about' element={<About />} />
        
         <Route path='/contact' element={<Contact />} />
